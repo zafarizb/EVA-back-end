@@ -33,8 +33,8 @@ class DevelopmentConfig(Config):
         pass
     DEBUG = True
     # 连接测试环境数据库的URL
-    # SQLALCHEMY_DATABASE_URI = (os.environ.get('DEV_DATABASE_URL') or
-    #                            'mysql://root:netlab523@172.18.167.38/kubernetes_jida')
+    SQLALCHEMY_DATABASE_URI = (os.environ.get('DEV_DATABASE_URL') or
+                               'mysql://root:ssbb121110@127.0.0.1/EVA')
 
 
 class ProductionConfig(Config):
@@ -42,8 +42,8 @@ class ProductionConfig(Config):
         pass
     DEBUG = False
     # 连接生产环境数据库的URL
-    # SQLALCHEMY_DATABASE_URI = (os.environ.get('PRO_DATABASE_URL') or
-    #                            'mysql://root:123456@localhost/deepnex_pro')
+    SQLALCHEMY_DATABASE_URI = (os.environ.get('PRO_DATABASE_URL') or
+                               'mysql://root:ssbb121110@127.0.0.1/EVA')
 
 
 config = {

@@ -51,7 +51,7 @@ def create_app(config_name):
     app.logger.addHandler(info_file_handler)
 
     # 注册路由
-    from .test import test_blueprint
-    app.register_blueprint(test_blueprint, url_prefix='/test')
+    from .user import user
+    app.register_blueprint(user, url_prefix='/user')
 
     return app
