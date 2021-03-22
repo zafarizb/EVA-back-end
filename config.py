@@ -23,6 +23,9 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or '!@#$%^&*12345678'  # 设置密钥，可能会用在某些涉及到加解密的功能中
     SQLALCHEMY_TRACK_MODIFICATIONS = True                            # 该项不设置为True的话可能会导致数据库报错
 
+    # 用户文件的存储路径
+    FILE_PATH = 'F:\\userdata\\users\\'
+
     @staticmethod
     def init_app(app):
         pass

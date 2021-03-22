@@ -31,6 +31,9 @@ class User(UserMixin, db.Model):
     last_login = db.Column(db.DateTime(), default=datetime.now)
     createtime = db.Column(db.DateTime(), default=datetime.now)
 
+    logs = db.relationship('Log', backref='user', lazy='dynamic')
+    tasks = db.relationship('Task', backref='user', lazy='dynamic')
+
     # 以下函数分别用于对用户密码进行读取保护、散列化以及验证密码
     @property
     def id(self):
@@ -79,3 +82,34 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+
+"""
+任务管理
+@Task:任务表
+@Log：存储用户的操作日志
+"""
+
+
+class Task(db.Model):
+    __tablename__ = 'task'
+    tid = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer, db.ForeignKey('user.uid'))  # 所属用户ID
+    kind = db.Column(db.Integer, default=1)  # 任务类型，1表示图像分析，2表示视频分析
+    state = db.Column(db.Integer, default=1)  # 任务状态，0表示运行中，1表示已完成，2表示已失败
+    taskname = db.Column(db.String(128))  # 任务名
+    filepath = db.Column(db.String(128))  # 文件或文件夹路径
+    dnn = db.Column(db.Integer, default=1)  # 执行任务的模型，1表示ssd，2表示faster_rcnn
+    pl = db.Column(db.Integer, default=0)  # 模型划分点，0-4，0为不执行模型划分
+    createdtime = db.Column(db.DateTime(), default=datetime.now)  # 任务启动时间
+    endtime = db.Column(db.DateTime())  # 任务结束时间
+
+
+class Log(db.Model):
+    __tablename__ = 'logs'
+    id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, db.ForeignKey('user.uid'))  # 操作涉及的用户
+    content = db.Column(db.Text(), nullable=False)  # 操作的主要内容
+    type_flag = db.Column(db.Integer, default=0)  # type_flag 用于记录操作类型:
+    # 0代表普通操作如登录等 1代表创建任务 2代表删除任务
+    created_time = db.Column(db.DateTime(), default=datetime.now)  # 记录日志时的时间

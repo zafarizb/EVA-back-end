@@ -5,6 +5,6 @@ from ..models import User, db
 from flask import jsonify, request
 
 
-@main.route('/Main')
+@main.route('/')
 def index():
-    pass
+    return jsonify({'status': '1'})

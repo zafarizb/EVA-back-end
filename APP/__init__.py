@@ -32,7 +32,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     # 跨域
-    CORS(app)
+    CORS(app, resources=r'/*')
 
     db.init_app(app)
     login_manager.init_app(app)
@@ -51,7 +51,15 @@ def create_app(config_name):
     app.logger.addHandler(info_file_handler)
 
     # 注册路由
+    from .main import main
+    app.register_blueprint(main, url_prefix='/main')
     from .user import user
     app.register_blueprint(user, url_prefix='/user')
+    from .image import image
+    app.register_blueprint(image, url_prefix='/image')
+    from .video import video
+    app.register_blueprint(video, url_prefix='/video')
+    from .file import file
+    app.register_blueprint(file, url_prefix='/file')
 
     return app

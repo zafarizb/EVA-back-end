@@ -9,9 +9,13 @@
 """
 
 import os
+import sys
 from APP import create_app, db
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
+
+sys.path.append('APP/ssd/')
+sys.path.append('APP/fasterrcnn/')
 
 app = create_app(os.getenv('APP_CONFIG') or 'default')
 manager = Manager(app)
